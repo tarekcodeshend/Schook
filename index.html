@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>معلوماتية</title>
+    <style>
+        /* Body Styling */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #ffffff;
+            overflow: hidden;
+        }
+
+        /* Button Styling */
+        .futuristic-btn {
+            font-size: 1.2em;
+            padding: 15px 30px;
+            cursor: pointer;
+            color: #fff;
+            background-color: #1f4068;
+            border: 2px solid #1f4068;
+            border-radius: 25px;
+            position: relative;
+            transition: background-color 0.3s, color 0.3s;
+            overflow: hidden;
+            outline: none;
+            display: none; /* Hidden initially until loading screen is done */
+        }
+        .futuristic-btn:hover {
+            background-color: #1b1b2f;
+            border-color: #4ecca3;
+        }
+        .futuristic-btn::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: linear-gradient(45deg, #4ecca3, #393e46);
+            filter: blur(10px);
+            z-index: -1;
+        }
+
+        /* Loading Animation */
+        .loading-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            font-size: 1.5em;
+            color: #4ecca3;
+        }
+        .dots span {
+            display: inline-block;
+            margin: 0 4px;
+            width: 10px;
+            height: 10px;
+            background-color: #4ecca3;
+            border-radius: 50%;
+            animation: bounce 0.6s infinite alternate;
+        }
+        .dots span:nth-child(2) { animation-delay: 0.2s; }
+        .dots span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes bounce {
+            to { transform: translateY(-15px); }
+        }
+
+        /* Carousel Styling */
+        #carousel {
+            display: flex;
+            overflow-x: scroll;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        #carousel img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border: 3px solid #4ecca3;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        #carousel img:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 10px #4ecca3;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div>جاري التحميل</div>
+        <div class="dots">
+            <span></span><span></span><span></span>
+        </div>
+    </div>
+
+    <!-- Main Button -->
+    <button class="futuristic-btn" id="mainButton" onclick="loadImages()">معلوماتية</button>
+
+    <!-- Back Button and Carousel (Initially Hidden) -->
+    <div id="carouselContainer" style="display: none;">
+        <button class="futuristic-btn" id="backButton" onclick="goBack()">عودة</button>
+        <div id="carousel"></div>
+    </div>
+
+    <script>
+        // Show loading screen initially, then reveal main button
+        window.onload = function() {
+            setTimeout(() => {
+                document.getElementById('loadingScreen').style.display = 'none';
+                document.getElementById('mainButton').style.display = 'inline-block';
+            }, 2000); // 2 seconds delay for loading screen
+        };
+
+        // Function to load images after button click
+        function loadImages() {
+            document.getElementById('mainButton').style.display = 'none';
+            document.getElementById('carouselContainer').style.display = 'flex';
+
+            const carousel = document.getElementById('carousel');
+            const imagePaths = [
+                'image1.jpg',
+                'image2.jpg',
+                'image3.jpg',
+                'image4.jpg'
+            ];
+
+            // Clear carousel and dynamically add images
+            carousel.innerHTML = '';
+            imagePaths.forEach(path => {
+                const img = document.createElement('img');
+                img.src = path;
+                img.alt = 'Image';
+                img.onclick = () => openImage(path);
+                carousel.appendChild(img);
+            });
+        }
+
+        // Function to go back to the main button view
+        function goBack() {
+            document.getElementById('mainButton').style.display = 'inline-block';
+            document.getElementById('carouselContainer').style.display = 'none';
+        }
+
+        // Example function when an image is clicked
+        function openImage(imageSrc) {
+            alert('You clicked on ' + imageSrc);
+        }
+    </script>
+</body>
+</html>
